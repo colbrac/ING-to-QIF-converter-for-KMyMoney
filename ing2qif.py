@@ -3,6 +3,8 @@ import openpyxl
 
 # Own bankaccount IBAN
 ING_IBAN = 'NL@@INGB@@@@@@@@@@'
+
+# Name of the bankaccount in KMyMoney
 KMYMONEYACCOUNT = 'Betaalrekening'
 
 # Search for new csv file in this location
