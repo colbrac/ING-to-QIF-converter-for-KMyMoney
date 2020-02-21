@@ -48,8 +48,8 @@ def load_csv(csv_filename):
     data = [line[1:-2].split('","') for line in rawdata]
     if data[0][1] != 'Naam / Omschrijving':
         raise ValueError("File does not contain transaction data, " +
-                         " check contents of {}".format(csv_filename))
-    csvdata = []
+                         f" check contents of {csv_filename}")
+    transactions = []
     for datum, naam, rek, tegenrek, code, afbij, \
             bedrag, mutatiesoort, mededeling in data[1:]:
         date = f'{datum[6:8]}/{datum[4:6]}/{datum[:4]}'
@@ -76,8 +76,8 @@ def load_csv(csv_filename):
         else:  # overige codes, nog eens uitzoeken welke er zijn
             desc = f'{naam} ({tegenrek}) - {mededeling}'
 
-        csvdata.append([date, amount, desc])
-    return csvdata
+        transactions.append([date, amount, desc])
+    return transactions
 
 
 def csv_filename_renamer(csv_file):
