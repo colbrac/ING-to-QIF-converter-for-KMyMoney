@@ -41,7 +41,9 @@ def load_csv(csv_filename):
     Loads the csv file and, based on the ING coding, combines a number of
     the included fields into a description.
 
-    Returns a list of list of strings with the date, amount and description
+    Returns a list of list of strings with the date, amount, description
+    and placeholders for payee and category, to be filled in by the
+    subsequent call of the mapping function.
     """
     with open(csv_filename, 'r') as f:
         rawdata = f.readlines()
@@ -76,7 +78,7 @@ def load_csv(csv_filename):
         else:  # overige codes, nog eens uitzoeken welke er zijn
             desc = f'{naam} ({tegenrek}) - {mededeling}'
 
-        transactions.append([date, amount, desc])
+        transactions.append([date, amount, desc, '', ''])
     return transactions
 
 
@@ -119,14 +121,12 @@ def map_transactions(transactions, mapping):
     """
     mappedtransactions = []
     mapcounter = 0
-    for date, amount, desc in transactions:
+    for date, amount, desc, payee, category in transactions:
         for identifier in mapping.keys():
             if identifier in desc:
                 payee, category = mapping[identifier]
                 mapcounter += 1
                 break
-            else:
-                payee, category = '', ''
         mappedtransactions.append([date, amount, desc, payee, category])
 
     print(f'Mapped {mapcounter} out of {len(transactions)} ' +
@@ -151,22 +151,15 @@ def write_transactions_to_qif(transactions, qiffile, verbose=False):
         f.write('^\n')
 
         # Loop over transactions and write to file
-        if len(transactions[0]) == 5:
-            for date, amount, desc, payee, category in transactions:
-                f.write(f'D{date}\n')
-                f.write(f'T{amount}\n')
-                if payee != '':
-                    f.write(f'P{payee}\n')
-                if category != '':
-                    f.write(f'L{category}\n')
-                f.write(f'M{desc}\n')
-                f.write('^\n')
-        else:
-            for date, amount, desc in transactions:
-                f.write(f'D{date}\n')
-                f.write(f'T{amount}\n')
-                f.write(f'M{desc}\n')
-                f.write('^\n')
+        for date, amount, desc, payee, category in transactions:
+            f.write(f'D{date}\n')
+            f.write(f'T{amount}\n')
+            if payee != '':
+                f.write(f'P{payee}\n')
+            if category != '':
+                f.write(f'L{category}\n')
+            f.write(f'M{desc}\n')
+            f.write('^\n')
 
 
 if __name__ == "__main__":
