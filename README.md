@@ -41,7 +41,7 @@ python proces-<myaccount>.py
 conda deactivate
 ```
 
-Then I made a copy of the 'Anaconda Prompt' shortcut in the Windows Start Menu folder which points to this .bat file.
+Then I made a copy of the 'Anaconda Prompt' shortcut in the Windows Start Menu folder which points to this .bat file instead of the activate.bat and changed the working folder field.
 
 ## License
 This script is provided under the MIT License. Please see the license file for more details.
