@@ -19,7 +19,7 @@ The easiest way to use this script is to edit ing2qif.py itself and run it stand
 - Import the resulting qif file in KMyMoney.
 
 ## Run as library
-When you have more than 1 ING account, you could create scripts per account that import ing2qif and change only the variables. Personally I created several sheets in the xlsx for the different accounts. The scripts 'proces-<myaccount>.py' then take the following form:
+When you have more than 1 ING account, you could create scripts per account that import ing2qif and change only the variables. Personally I created several sheets in the xlsx for the different accounts. The scripts 'proces-{myaccount}.py' then take the following form:
 
 ```
 import ing2qif as iq
