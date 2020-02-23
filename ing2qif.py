@@ -162,7 +162,10 @@ def write_transactions_to_qif(transactions, qiffile, verbose=False):
             f.write('^\n')
 
 
-if __name__ == "__main__":
+def run():
+    """
+    Main function
+    """
     csv_file = find_csvfile()
     if csv_file:
         print(f'Found new csv file {csv_file}...')
@@ -184,3 +187,7 @@ if __name__ == "__main__":
 
     else:
         print('No csv file found!')
+
+
+if __name__ == "__main__":
+    run()
