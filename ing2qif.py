@@ -86,8 +86,12 @@ def csv_filename_renamer(csv_file):
     """
     Converts the ING naming convention into naming convention
     with date YYYYMMDD to YYYYMMDD first.
+
+    Expects a Path or filename (without folder)
     """
-    account, fromdate, todate = csv_file.name[:-4].split('_')
+    if isinstance(csv_file, Path):
+        csv_file = csv_file.name
+    account, fromdate, todate = csv_file[:-4].split('_')
 
     day, month, year = fromdate.split('-')
     fromdate = f'{year}-{month}-{day}'
