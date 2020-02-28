@@ -36,6 +36,18 @@ def find_csvfile(folder=FOLDER_CSVS):
     return files[0] if len(files) > 0 else False
 
 
+def find_latest_csvfile(folder=FOLDER_CSV_ARCHIVE):
+    """
+    Return a Path for the newest csv file which has the accountnumber
+    in its filename.
+    """
+    if not isinstance(folder, Path):
+        folder = Path(folder)
+    files = [path for path in folder.iterdir() if ING_IBAN in path.name]
+    files.sort()
+    return files[-1] if len(files) > 0 else False
+
+
 def load_csv(csv_filename):
     """
     Loads the csv file and, based on the ING coding, combines a number of
@@ -188,6 +200,30 @@ def run():
 
         FOLDER_CSV_ARCHIVE.mkdir(parents=True, exist_ok=True)
         csv_file.rename(Path.joinpath(FOLDER_CSV_ARCHIVE, csv_newname))
+
+        print(f'Succes! Result saved to {qif_file}.')
+
+    else:
+        print('No csv file found!')
+
+
+def run_redo():
+    """
+    Rerun the mapping function and recreate the qif from the latest relevant
+    csv file in the csv folder
+    """
+    csv_file = find_latest_csvfile()
+    if csv_file:
+        print(f'Found latest csv file {csv_file}...')
+        transactions = load_csv(csv_file)
+        qif_file = Path.joinpath(FOLDER_QIF_ARCHIVE,
+                                 csv_file.name.replace('.csv', '.qif'))
+        if MAP_FILE:
+            mapping = load_mapdict()
+            transactions = map_transactions(transactions, mapping)
+
+        FOLDER_QIF_ARCHIVE.mkdir(parents=True, exist_ok=True)
+        write_transactions_to_qif(transactions, qif_file)
 
         print(f'Succes! Result saved to {qif_file}.')
 
