@@ -113,8 +113,10 @@ def load_mapdict(filename_mapfile=MAP_FILE):
     mapfile = openpyxl.open(filename_mapfile, 'r')
     print(f'Loading mapping from sheet {MAP_SHEET} of {filename_mapfile}')
     sheet = mapfile[MAP_SHEET]
-    mapping = {str(value[1]): (str(value[2]), str(value[3]))  # Cols B, C and D
-               for value in sheet.values if value[1] is not None}
+    mapping = {str(value[1]).strip():
+               (str(value[2]).strip(), str(value[3]).strip())  # Cols B, C D
+               for value in sheet.values
+               if (value[1] is not None) and value[1] != ' '}
     mapfile.close()
     return mapping
 
