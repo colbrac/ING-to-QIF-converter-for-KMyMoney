@@ -88,7 +88,7 @@ def load_csv(csv_filename):
         elif code == 'OV':
             desc = f'Overboeking: {mededeling}'
         else:  # overige codes, nog eens uitzoeken welke er zijn
-            desc = f'{naam} ({tegenrek}) - {mededeling}'
+            desc = f'{naam} ({tegenrek}) - {code} {mededeling}'
 
         transactions.append([date, amount, desc, '', ''])
     return transactions
