@@ -141,7 +141,7 @@ def map_transactions(transactions, mapping):
     mapcounter = 0
     for date, amount, desc, payee, category in transactions:
         for identifier in mapping.keys():
-            if identifier in desc:
+            if identifier.lower() in desc.lower():
                 payee, category = mapping[identifier]
                 mapcounter += 1
                 break
