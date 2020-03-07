@@ -43,5 +43,20 @@ conda deactivate
 
 Then I made a copy of the 'Anaconda Prompt' shortcut in the Windows Start Menu folder which points to this .bat file instead of the activate.bat and changed the working folder field.
 
+## Rerun after updating the mapping file
+To rerun the conversion of csv file to qif file, for example after updating the bankstatementmapping file, use the run_redo() function. This function assumes the csv is already moved and renamed and will search the csv archive folder for the latest file for this bankaccount. My script to use this function looks like:
+
+```
+import ing2qif as iq
+
+iq.ING_IBAN = 'NL@@INGB@@@@@@@@@@'
+iq.MAP_SHEET = 'Different sheet name'
+iq.KMYMONEYACCOUNT = 'Different account name'
+
+iq.run_redo()
+```
+
+
+
 ## License
 This script is provided under the MIT License. Please see the license file for more details.
